@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  app:
+    build: .
+    container_name: Api_Gatway
+    restart: always
+    ports:
+      - 3339:3339
+    volumes:
+      - .:/usr/app
+volumes:
+  pgdata:
+    driver: local
