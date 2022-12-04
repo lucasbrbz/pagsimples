@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cadastro-service-pagsimples
+spec:
+  ports:
+    - port: 3000
+      name: http
+      protocol: TCP
+  selector:
+    app: cadastro
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cadastro-deployment-pagsimples
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cadastro
+        version: 0.0.1
+    spec:
+      containers:
+        - name: cadastro
+          image: cadastro:0.0.1
+          imagePullPolicy: Never
+          ports:
+            # pura documentação (caráter informativo), igual o EXPOSE do Dockerfile
+            - containerPort: 3000
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: development
+            - name: PORT
+              value: "3000"
+  selector:
+    matchLabels:
+      app: cadastro
