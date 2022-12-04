@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: transacao-service-pagsimples
+spec:
+  ports:
+    - port: 3000
+      name: http
+      protocol: TCP
+  selector:
+    app: transacao
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transacao-deployment-pagsimples
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: transacao
+        version: 0.0.1
+    spec:
+      containers:
+        - name: transacao
+          image: transacao:0.0.1
+          imagePullPolicy: Never
+          ports:
+            # pura documentação (caráter informativo), igual o EXPOSE do Dockerfile
+            - containerPort: 3000
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: development
+            - name: PORT
+              value: "3000"
+          resources:
+            limits:
+              memory: "128M"
+              cpu: "100m" # 10% de cada core de CPU - m -> millicore (1000m = 1.0 = 1 CPU)
+  selector:
+    matchLabels:
+      app: transacao

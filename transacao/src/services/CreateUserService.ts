@@ -19,7 +19,7 @@ export class CreateUserService {
         let SENHA
         let ID
         let NOME
-        const data = await axios(`http://localhost:3333/user`)
+        const data = await axios(`http://localhost:3000/user`)
         const result = data.data
 
         const saveAll = result.map(async (varCerta) =>{
