@@ -18,7 +18,7 @@ export class AuthService{
     let SENHA 
 
 
-    const data = await axios(`http://localhost:3333/user/${cpf}`)
+    const data = await axios(`http://localhost:3000/user/${cpf}`)
     const users = data.data
 
     await users.map(async(teste: any)=>{
